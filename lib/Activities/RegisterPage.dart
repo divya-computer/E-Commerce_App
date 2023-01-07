@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, unnecessary_new
 
+import 'dart:convert';
+
+import 'package:ecommercegarment/Activities/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 class registerPage extends StatefulWidget {
   const registerPage({super.key});
@@ -36,7 +40,8 @@ class _registerPageState extends State<registerPage> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
-                  decoration: InputDecoration(labelText: 'Enter User Name'),
+                  decoration: InputDecoration(
+                      labelText: 'Enter User Name', filled: true),
                   controller: uName,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -51,7 +56,8 @@ class _registerPageState extends State<registerPage> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
-                  decoration: InputDecoration(labelText: 'Enter Email'),
+                  decoration:
+                      InputDecoration(labelText: 'Enter Email', filled: true),
                   controller: uEmail,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -68,7 +74,8 @@ class _registerPageState extends State<registerPage> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
-                  decoration: InputDecoration(labelText: 'Enter Password'),
+                  decoration: InputDecoration(
+                      labelText: 'Enter Password', filled: true),
                   controller: uPassword,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -83,7 +90,8 @@ class _registerPageState extends State<registerPage> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
-                  decoration: InputDecoration(labelText: 'Enter Gender'),
+                  decoration:
+                      InputDecoration(labelText: 'Enter Gender', filled: true),
                   controller: uGender,
                   validator: (value) {
                     if (!(value == "male" ||
@@ -98,7 +106,8 @@ class _registerPageState extends State<registerPage> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
-                  decoration: InputDecoration(labelText: 'Enter Mobile'),
+                  decoration:
+                      InputDecoration(labelText: 'Enter Mobile', filled: true),
                   controller: uMobile,
                   keyboardType: TextInputType.number,
                   validator: (value) {
@@ -111,7 +120,8 @@ class _registerPageState extends State<registerPage> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
-                  decoration: InputDecoration(labelText: 'Enter Address'),
+                  decoration:
+                      InputDecoration(labelText: 'Enter Address', filled: true),
                   controller: uAddress,
                 ),
               ),
@@ -131,12 +141,6 @@ class _registerPageState extends State<registerPage> {
       ),
     );
   }
-// user_name
-// user_email
-// user_password
-// user_gender
-// user_mobile
-// user_address
 
   void registerdata() async {
     var url = Uri.parse('https://akashsir.in/myapi/ecom1/api/api-signup.php');
@@ -152,8 +156,44 @@ class _registerPageState extends State<registerPage> {
 
     var response = await http.post(url, body: requestBody);
 
+    var mymap = json.decode(response.body);
+
     print('Data Entered Successfully !!!');
     print('Response Status : ${response.statusCode}');
     print('Response Body : ${response.body}');
+
+    if (mymap['flag'] == "0") {
+      Fluttertoast.showToast(
+        msg: "Error : ${mymap['message']}",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    } else {
+      return showDialog(
+        context: context,
+        builder: (context) {
+          return Container(
+            child: AlertDialog(
+              title: Text('Registered successfully !!! '),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: ((context) => loginPage())));
+                  },
+                  child: Text(
+                    'Login Page',
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
   }
 }

@@ -18,6 +18,8 @@ class _loginPageState extends State<loginPage> {
   TextEditingController uEmail = new TextEditingController();
   TextEditingController uPassword = new TextEditingController();
   String userId = "";
+  bool passwordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,15 +32,36 @@ class _loginPageState extends State<loginPage> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
-              decoration: InputDecoration(labelText: 'Enter Your Email'),
+              decoration:
+                  InputDecoration(labelText: 'Enter Your Email', filled: true),
               controller: uEmail,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
-              decoration: InputDecoration(labelText: 'Enter Your Password'),
+              obscureText: passwordVisible,
               controller: uPassword,
+              decoration: InputDecoration(
+                // border: UnderlineInputBorder(),
+                labelText: "Enter your Password",
+                suffixIcon: IconButton(
+                  icon: Icon(passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                  onPressed: () {
+                    setState(
+                      () {
+                        passwordVisible = !passwordVisible;
+                      },
+                    );
+                  },
+                ),
+                alignLabelWithHint: false,
+                filled: true,
+              ),
+              keyboardType: TextInputType.visiblePassword,
+              textInputAction: TextInputAction.done,
             ),
           ),
           ElevatedButton(

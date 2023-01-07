@@ -2,6 +2,7 @@
 
 import 'package:ecommercegarment/Activities/BuyNowPage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -198,13 +199,22 @@ class _cartPageState extends State<cartPage> {
         'https://akashsir.in/myapi/ecom1/api/api-cart-remove-product.php');
     var response =
         await http.post(url, body: {'cart_id': storeData[index]['cart_id']});
+    var mymap = json.decode(response.body);
+
     print("Response : ${response.body}");
+
     setState(() {
       storeData.removeAt(index);
     });
-    // setState(() {
-    //   totalPrice;
-    //   totalQuantity;
-    // });
+
+    Fluttertoast.showToast(
+      msg: "${mymap['message']}",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 }

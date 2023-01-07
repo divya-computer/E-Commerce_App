@@ -3,6 +3,7 @@
 import 'package:ecommercegarment/Activities/CartPage.dart';
 import 'package:ecommercegarment/Activities/WistListPage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -198,23 +199,23 @@ class _ParticularProductState extends State<ParticularProduct> {
                 },
               ),
             ),
-            Expanded(
-              child: InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  color: Colors.red,
-                  child: Text(
-                    "BUY NOW",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                ),
-                onTap: () {
-                  setState(() {
-                    print('You click on Buy Now');
-                  });
-                },
-              ),
-            ),
+            // Expanded(
+            //   child: InkWell(
+            //     child: Container(
+            //       alignment: Alignment.center,
+            //       color: Colors.red,
+            //       child: Text(
+            //         "BUY NOW",
+            //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            //       ),
+            //     ),
+            //     onTap: () {
+            //       setState(() {
+            //         print('You click on Buy Now');
+            //       });
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -260,8 +261,32 @@ class _ParticularProductState extends State<ParticularProduct> {
     };
 
     var response = await http.post(url, body: requestBody);
+
+    var mymap = json.decode(response.body);
     print('Response body : ${response.body}');
     print('Response Status : ${response.statusCode}');
+
+    if (mymap['flag'] == '0') {
+      Fluttertoast.showToast(
+        msg: "${mymap['message']}",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: "${mymap['message']}",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
 
     print('Successfully Data Inserted');
   }
