@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-List<WishlistAdd> addList = [];
+// List<WishlistAdd> addList = [];
 
 class ParticularProduct extends StatefulWidget {
   String product = "";
@@ -89,18 +89,22 @@ class _ParticularProductState extends State<ParticularProduct> {
                       IconButton(
                         onPressed: () {
                           if (isav == true) {
+                            // TO REMOVE FROM WISTLIST
                             setState(() {
                               isav = false;
-                              addList.removeAt(0);
+                              removefromWistList();
+                              // addList.removeAt(0);
                             });
                           } else {
+                            // TO ADD INTO WISTLIST
                             setState(() {
                               isav = true;
-                              addList.add(WishlistAdd(
-                                  pPhoto: storeData[0]['product_image'],
-                                  pName: storeData[0]['product_name'],
-                                  pCat: storeData[0]['sub_category_name'],
-                                  pPrice: storeData[0]['product_price']));
+                              addtoWistList();
+                              // addList.add(WishlistAdd(
+                              //     pPhoto: storeData[0]['product_image'],
+                              //     pName: storeData[0]['product_name'],
+                              //     pCat: storeData[0]['sub_category_name'],
+                              //     pPrice: storeData[0]['product_price']));
                             });
                           }
                         },
@@ -290,17 +294,52 @@ class _ParticularProductState extends State<ParticularProduct> {
 
     print('Successfully Data Inserted');
   }
+
+  addtoWistList() async {
+    String counter = "";
+    var prefs = await SharedPreferences.getInstance();
+    counter = prefs.getString('counter').toString();
+    print(counter);
+
+    var url =
+        Uri.parse('https://akashsir.in/myapi/ecom1/api/api-wishlist-add.php');
+
+    var requestBody = {'user_id': counter, 'product_id': widget.product};
+
+    var response = await http.post(url, body: requestBody);
+
+    var mymap = json.decode(response.body);
+    print('Response body : ${response.body}');
+    print('Response Status : ${response.statusCode}');
+
+    Fluttertoast.showToast(
+      msg: "Product added to wistlist",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+  removefromWistList() async {
+    String counter = "";
+    var prefs = await SharedPreferences.getInstance();
+    counter = prefs.getString('counter').toString();
+    print(counter);
+  }
 }
 
-class WishlistAdd {
-  String pPhoto;
-  String pName;
-  String pCat;
-  String pPrice;
+// class WishlistAdd {
+//   String pPhoto;
+//   String pName;
+//   String pCat;
+//   String pPrice;
 
-  WishlistAdd(
-      {required this.pPhoto,
-      required this.pName,
-      required this.pCat,
-      required this.pPrice});
-}
+//   WishlistAdd(
+//       {required this.pPhoto,
+//       required this.pName,
+//       required this.pCat,
+//       required this.pPrice});
+// }

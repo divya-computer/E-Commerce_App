@@ -15,6 +15,8 @@ class orderHistory extends StatefulWidget {
 
 class _orderHistoryState extends State<orderHistory> {
   List<dynamic> storeDate = [];
+  bool anyOrder = true;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -29,52 +31,63 @@ class _orderHistoryState extends State<orderHistory> {
         title: Text('Your Orders'),
         backgroundColor: Colors.amber,
       ),
-      body: ListView.builder(
-        itemCount: storeDate.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: InkWell(
-              child: ListTile(
-                leading: Icon(Icons.shopify),
-                title: Text(
-                  'Order Id : ${storeDate[index]['order_id']}',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                subtitle: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                          'Amount : ${storeDate[index]['total_amount']}/-  \nDate : ${storeDate[index]['order_date']}'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                      child: Text(
-                        'Order Status : ${storeDate[index]['order_status']}',
+      body: anyOrder == true
+          ? Center(
+              child: Text(
+                "You dont have any Order's yet",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.red),
+              ),
+            )
+          : ListView.builder(
+              itemCount: storeDate.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: InkWell(
+                    child: ListTile(
+                      leading: Icon(Icons.shopify),
+                      title: Text(
+                        'Order Id : ${storeDate[index]['order_id']}',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      subtitle: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                                'Amount : ${storeDate[index]['total_amount']}/-  \nDate : ${storeDate[index]['order_date']}'),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                            child: Text(
+                              'Order Status : ${storeDate[index]['order_status']}',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15),
+                            ),
+                          ),
+                        ],
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.black,
                       ),
                     ),
-                  ],
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Colors.black,
-                ),
-              ),
-              onTap: () {
-                print(
-                    'You clicked on Product : ${storeDate[index]['order_id']}');
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => orderedhistoryPage(
-                            orderId: storeDate[index]['order_id'])));
+                    onTap: () {
+                      print(
+                          'You clicked on Product : ${storeDate[index]['order_id']}');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => orderedhistoryPage(
+                                  orderId: storeDate[index]['order_id'])));
+                    },
+                  ),
+                );
               },
             ),
-          );
-        },
-      ),
     );
   }
 
@@ -89,6 +102,16 @@ class _orderHistoryState extends State<orderHistory> {
     var response = await http.post(url, body: {'user_id': counter});
 
     var mymap = json.decode(response.body);
+
+    if (mymap['flag'] == "0") {
+      setState(() {
+        anyOrder = true;
+      });
+    } else {
+      setState(() {
+        anyOrder = false;
+      });
+    }
 
     setState(() {
       storeDate = mymap['order_list'];

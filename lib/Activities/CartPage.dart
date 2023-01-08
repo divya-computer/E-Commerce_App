@@ -61,6 +61,16 @@ class _cartPageState extends State<cartPage> {
                             onPressed: () {
                               print('Cart ID : ${storeData[index]['cart_id']}');
                               removeproductfromCart(index);
+                              Navigator.pop(context);
+                              Fluttertoast.showToast(
+                                msg: "Product removed",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
                             },
                           ),
                         ),
@@ -107,7 +117,7 @@ class _cartPageState extends State<cartPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 5),
+                      padding: const EdgeInsets.fromLTRB(3.0, 0, 0, 5),
                       child: Text(
                         "$totalPrice/-",
                         style: TextStyle(

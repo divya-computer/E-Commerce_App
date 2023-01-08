@@ -119,10 +119,15 @@ class _registerPageState extends State<registerPage> {
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: TextField(
+                child: TextFormField(
                   decoration:
                       InputDecoration(labelText: 'Enter Address', filled: true),
                   controller: uAddress,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter valid number';
+                    }
+                  },
                 ),
               ),
               ElevatedButton(
