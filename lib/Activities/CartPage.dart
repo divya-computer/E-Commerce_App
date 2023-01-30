@@ -35,51 +35,47 @@ class _cartPageState extends State<cartPage> {
         title: Text('Cart Page'),
         backgroundColor: Colors.amber,
       ),
-      body: loadingproduct == true
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : Visibility(
-              visible: true,
-              child: Stack(
-                children: [
-                  ListView.builder(
-                    itemCount: storeData.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          leading: Image.network(
-                            storeData[index]['product_image'],
-                            width: 50,
-                            height: 100,
-                          ),
-                          title: Text(storeData[index]['product_name']),
-                          subtitle: Text(storeData[index]['product_details']),
-                          trailing: IconButton(
-                            icon: Icon(Icons.remove_circle),
-                            color: Colors.red,
-                            onPressed: () {
-                              print('Cart ID : ${storeData[index]['cart_id']}');
-                              removeproductfromCart(index);
-                              Navigator.pop(context);
-                              Fluttertoast.showToast(
-                                msg: "Product removed",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white,
-                                fontSize: 16.0,
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    },
+      body: Visibility(
+        visible: true,
+        child: Stack(
+          children: [
+            ListView.builder(
+              itemCount: storeData.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    leading: Image.network(
+                      storeData[index]['product_image'],
+                      width: 50,
+                      height: 100,
+                    ),
+                    title: Text(storeData[index]['product_name']),
+                    subtitle: Text(storeData[index]['product_details']),
+                    trailing: IconButton(
+                      icon: Icon(Icons.remove_circle),
+                      color: Colors.red,
+                      onPressed: () {
+                        print('Cart ID : ${storeData[index]['cart_id']}');
+                        removeproductfromCart(index);
+                        Navigator.pop(context);
+                        Fluttertoast.showToast(
+                          msg: "Product removed",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0,
+                        );
+                      },
+                    ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
+          ],
+        ),
+      ),
       bottomNavigationBar: Visibility(
         visible: checkproduct,
         child: Container(

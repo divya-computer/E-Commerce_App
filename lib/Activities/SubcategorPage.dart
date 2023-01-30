@@ -48,7 +48,10 @@ class _subcategoryPageState extends State<subcategoryPage> {
                       padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: Text(
                         'No Product Found here',
-                        style: TextStyle(fontSize: 30, color: Colors.red),
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -106,15 +109,15 @@ class _subcategoryPageState extends State<subcategoryPage> {
           checknotempty = true;
         });
         storeData = mymap['sub_category_list'];
-        setState(() {
-          loadingsubcategory = false;
-        });
       } else {
         setState(() {
           checkempty = true;
         });
         print('No Product');
       }
+    });
+    setState(() {
+      loadingsubcategory = false;
     });
   }
 }

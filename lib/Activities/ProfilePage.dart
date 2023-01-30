@@ -54,6 +54,7 @@ class _profilePageState extends State<profilePage> {
               child: TextField(
                 decoration: InputDecoration(
                   labelText: 'Enter Name',
+                  filled: true,
                 ),
                 controller: Uname,
               ),
@@ -61,28 +62,40 @@ class _profilePageState extends State<profilePage> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
-                decoration: InputDecoration(labelText: 'Enter Email'),
+                decoration: InputDecoration(
+                  labelText: 'Enter Email',
+                  filled: true,
+                ),
                 controller: Uemail,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
-                decoration: InputDecoration(labelText: 'Enter Gender'),
+                decoration: InputDecoration(
+                  labelText: 'Enter Gender',
+                  filled: true,
+                ),
                 controller: Ugender,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
-                decoration: InputDecoration(labelText: 'Enter Address'),
+                decoration: InputDecoration(
+                  labelText: 'Enter Address',
+                  filled: true,
+                ),
                 controller: Uaddress,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
-                decoration: InputDecoration(labelText: 'Enter Mobile'),
+                decoration: InputDecoration(
+                  labelText: 'Enter Mobile',
+                  filled: true,
+                ),
                 controller: Umobile,
               ),
             ),

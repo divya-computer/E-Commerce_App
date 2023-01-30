@@ -6,6 +6,7 @@ import 'package:ecommercegarment/Activities/OrderHistoryPage.dart';
 import 'package:ecommercegarment/Activities/SubcategorPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ProfilePage.dart';
 import 'package:ecommercegarment/main.dart';
@@ -20,16 +21,14 @@ class homePage extends StatefulWidget {
 class _homePageState extends State<homePage> {
   TextEditingController searchedText = new TextEditingController();
   List<dynamic> storeData = [];
+  String cTd = "";
 
   @override
   void initState() {
     // ignore: todo
     viewdata();
-
     super.initState();
   }
-
-  String cTd = "";
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +56,6 @@ class _homePageState extends State<homePage> {
             child: IconButton(
               onPressed: () {
                 confirmlogout();
-                // Navigator.pushReplacement(
-                //     context, MaterialPageRoute(builder: (context) => MyApp()));
               },
               icon: Icon(Icons.logout),
             ),
